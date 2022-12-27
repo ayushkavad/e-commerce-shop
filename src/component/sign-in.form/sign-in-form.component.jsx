@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import {
-  createAuthUserWithEmailAndPassword,
+  signInWithGooglePopup,
   createUserDocumentFromAuth,
+  signInAuthUserWithEmailAndPassword,
 } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-import './sign-up-form.styles.scss';
+import './sign-in-form.styles.scss';
 
 const defaultFormFields = {
-  displayName: '',
   email: '',
   password: '',
-  confirmPassword: '',
 };
 
-const SignUpForm = () => {
+const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { displayName, email, password, confirmPassword } = formFields;
+  const { email, password } = formFields;
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -25,23 +24,31 @@ const SignUpForm = () => {
   const handlerSubmit = async (event) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      alert(`password don't match`);
-      return;
-    }
-
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
+      const response = await signInAuthUserWithEmailAndPassword(
         email,
         password
       );
-      await createUserDocumentFromAuth(user, { displayName });
+      console.log(response);
+
       resetFormFields();
     } catch (error) {
-      if (error.code === 'auth/email-already-in-use')
-        alert('this email is alrady used! try another one.');
-      else console.log('user creation encounterd an error.', error);
+      switch (error.code) {
+        case 'auth/wrong-password':
+          alert('incorrect password for email');
+          break;
+        case 'auth/user-not-found':
+          alert('no user associated with this email');
+          break;
+        default:
+          console.log(error);
+      }
     }
+  };
+
+  const signInWithGoogle = async () => {
+    const { user } = await signInWithGooglePopup();
+    await createUserDocumentFromAuth(user);
   };
 
   const handlerChange = (event) => {
@@ -52,18 +59,9 @@ const SignUpForm = () => {
 
   return (
     <div className="sign-up-container">
-      <h2>Don't have an account?</h2>
-      <span>Sign up With your Eamil and Password</span>
+      <h2>Already have an account?</h2>
+      <span>Sign in With your Eamil and Password</span>
       <form onSubmit={handlerSubmit}>
-        <FormInput
-          label="Display Name"
-          type="text"
-          required
-          name="displayName"
-          onChange={handlerChange}
-          value={displayName}
-        />
-
         <FormInput
           label="Email"
           type="email"
@@ -82,18 +80,15 @@ const SignUpForm = () => {
           value={password}
         />
 
-        <FormInput
-          label="Confirm Password"
-          type="password"
-          required
-          name="confirmPassword"
-          onChange={handlerChange}
-          value={confirmPassword}
-        />
-        <Button type="submit">Sign up</Button>
+        <div className="buttons-container">
+          <Button type="submit">Sign In</Button>
+          <Button type="button" onClick={signInWithGoogle} buttonType="google">
+            google sign in
+          </Button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
