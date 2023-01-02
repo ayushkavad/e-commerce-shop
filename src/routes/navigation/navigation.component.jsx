@@ -14,7 +14,6 @@ const Navigation = () => {
     setCurrentUser(null);
   };
 
-  console.log(currentUser);
   return (
     <Fragment>
       <div className="navigation">
