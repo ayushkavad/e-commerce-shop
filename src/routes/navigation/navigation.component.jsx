@@ -15,7 +15,7 @@ import {
   LogoContainer,
   NavLinks,
   NavLink,
-} from './navigation.styles.jsx';
+} from './navigation.styles';
 
 const Navigation = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
