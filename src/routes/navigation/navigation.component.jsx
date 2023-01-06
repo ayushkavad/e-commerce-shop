@@ -30,15 +30,14 @@ const Navigation = () => {
   return (
     <Fragment>
       <NavigationContainer>
-        <LogoContainer>
-          <Link className="logo" to="/">
-            <CrwnLogo className="logo" />
-          </Link>
+        <LogoContainer to="/">
+          <CrwnLogo className="logo" />
         </LogoContainer>
         <NavLinks>
           <NavLink to="/shop">SHOP</NavLink>
+
           {currentUser ? (
-            <NavLink as="span" onClick={signOutHandler}>
+            <NavLink as="span" onClick={signOutUser}>
               SIGN OUT
             </NavLink>
           ) : (

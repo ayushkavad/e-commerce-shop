@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Link } from 'react-router-dom';
 
 export const CategoryPreviewContainer = styled.div`
@@ -11,10 +12,6 @@ export const Title = styled(Link)`
   font-size: 28px;
   margin-bottom: 25px;
   cursor: pointer;
-`;
-
-export const Heading = styled.h2`
-  font-size: 20px;
 `;
 
 export const Preview = styled.div`

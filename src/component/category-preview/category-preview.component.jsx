@@ -3,15 +3,14 @@ import {
   CategoryPreviewContainer,
   Title,
   Preview,
-  Heading,
 } from './category-preview.styles';
 
 const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer>
-      <Heading>
+      <h2>
         <Title to={title}>{title.toUpperCase()}</Title>
-      </Heading>
+      </h2>
       <Preview>
         {products
           .filter((_, idx) => idx < 4)
