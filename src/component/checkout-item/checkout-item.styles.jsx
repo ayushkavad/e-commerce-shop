@@ -22,14 +22,16 @@ export const Image = styled.img`
 
 export const Allstyle = styled.span`
   width: 23%;
-`;
-
-export const Arrow = styled.div`
-  cursor: pointer;
-`;
-
-export const Value = styled.span`
+  display: flex;
   margin: 0 10px;
+
+  div {
+    cursor: pointer;
+  }
+
+  span {
+    margin: 0 10px;
+  }
 `;
 
 export const RemoveButton = styled.div`

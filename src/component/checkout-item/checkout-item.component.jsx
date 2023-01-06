@@ -35,9 +35,9 @@ const CheckoutItem = ({ cartItem }) => {
       <Allstyle>{name}</Allstyle>
 
       <Allstyle>
-        <Arrow onClick={decrementCartItem}>&#10094;</Arrow>
-        <Value>{quantity}</Value>
-        <Arrow onClick={incrementCartItem}>&#10095;</Arrow>
+        <div onClick={decrementCartItem}>&#10094;</div>
+        <span>{quantity}</span>
+        <div onClick={incrementCartItem}>&#10095;</div>
       </Allstyle>
       <Allstyle>{price}</Allstyle>
       <RemoveButton onClick={clearCartItem}>&#10005;</RemoveButton>

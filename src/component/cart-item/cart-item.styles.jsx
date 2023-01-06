@@ -18,12 +18,12 @@ export const ItemDetails = styled.div`
   align-items: flex-start;
   justify-content: center;
   padding: 10px 20px;
-`;
 
-export const Name = styled.h2`
-  font-size: 16px;
-`;
+  h2 {
+    font-size: 16px;
+  }
 
-export const Price = styled.span`
-  font-size: 16px;
+  span {
+    font-size: 16px;
+  }
 `;
