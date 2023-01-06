@@ -9,6 +9,7 @@ import {
   CartDropdownContainer,
   CartItems,
   ButtonComponent,
+  EmptyMessage,
 } from './cart-dropdown.styles';
 
 const CartDropDown = () => {
@@ -23,13 +24,13 @@ const CartDropDown = () => {
   return (
     <CartDropdownContainer>
       <CartItems>
-        {cartItem.map((item) => (
-          <CartItem key={item.id} cartItem={item} />
-        ))}
+        {cartItem.length ? (
+          cartItem.map((item) => <CartItem key={item.id} cartItem={item} />)
+        ) : (
+          <EmptyMessage>Your cart is empty</EmptyMessage>
+        )}
       </CartItems>
-      <ButtonComponent as={Button} onClick={toToCheckoutPage}>
-        go to cart
-      </ButtonComponent>
+      <Button onClick={toToCheckoutPage}>go to cart</Button>
     </CartDropdownContainer>
   );
 };
