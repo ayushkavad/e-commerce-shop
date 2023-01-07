@@ -1,4 +1,5 @@
-import { createContext, useEffect, useState } from 'react';
+import { connectFirestoreEmulator } from 'firebase/firestore';
+import { createContext, useEffect, useState, useReducer } from 'react';
 
 const addCartItem = (cartItem, productToAdd) => {
   const existingCartItem = cartItem.find(
@@ -36,6 +37,35 @@ const clearCartItem = (cartItem, cartItemToCleat) => {
   return cartItem.filter((cartItem) => cartItem.id !== cartItemToCleat.id);
 };
 
+const CART_ACTION_TYPE = {
+  IS_CART_OPEN: 'IS_CART_OPEN',
+  CART_ITEM: 'CART_ITEM',
+};
+
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case CART_ACTION_TYPE.IS_CART_OPEN:
+      return {
+        ...state,
+        isCartOpen: payload,
+      };
+    case CART_ACTION_TYPE.CART_ITEM:
+      return {
+        ...state,
+        cartItem: payload,
+      };
+    default:
+      throw new Error(`Unhandled type ${type} in cartReducer`);
+  }
+};
+
+const INITIAL_STATE = {
+  isCartOpen: false,
+  cartItem: [],
+};
+
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
@@ -47,10 +77,26 @@ export const CartContext = createContext({
 });
 
 export const CartProvider = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItem, setCartItem] = useState([]);
+  // const [isCartOpen, setIsCartOpen] = useState(false);
+  // const [cartItem, setCartItem] = useState([]);
+  // console.log(cartItem);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
+
+  const [{ isCartOpen, cartItem }, dispatch] = useReducer(
+    cartReducer,
+    INITIAL_STATE
+  );
+
+  console.log(cartItem);
+
+  const setIsCartOpen = (isCartOpen) => {
+    dispatch({ type: CART_ACTION_TYPE.IS_CART_OPEN, payload: isCartOpen });
+  };
+
+  const setCartItem = (cartItem) => {
+    dispatch({ type: CART_ACTION_TYPE.CART_ITEM, payload: cartItem });
+  };
 
   useEffect(() => {
     const newCartCount = cartItem.reduce(
