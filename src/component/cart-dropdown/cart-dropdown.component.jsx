@@ -8,7 +8,6 @@ import { CartContext } from '../../contexts/cart.context';
 import {
   CartDropdownContainer,
   CartItems,
-  ButtonComponent,
   EmptyMessage,
 } from './cart-dropdown.styles';
 
