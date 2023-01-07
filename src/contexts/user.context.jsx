@@ -15,7 +15,6 @@ const USER_ACTION_TYPE = {
 };
 
 const userReducer = (state, action) => {
-  console.log(state);
   const { type, payload } = action;
 
   switch (type) {

@@ -40,6 +40,8 @@ const clearCartItem = (cartItem, cartItemToCleat) => {
 const CART_ACTION_TYPE = {
   IS_CART_OPEN: 'IS_CART_OPEN',
   CART_ITEM: 'CART_ITEM',
+  CART_COUNT: 'CART_COUNT',
+  CART_TOTAL: 'CART_TOTAL',
 };
 
 const cartReducer = (state, action) => {
@@ -56,6 +58,16 @@ const cartReducer = (state, action) => {
         ...state,
         cartItem: payload,
       };
+    case CART_ACTION_TYPE.CART_COUNT:
+      return {
+        ...state,
+        cartCount: payload,
+      };
+    case CART_ACTION_TYPE.CART_TOTAL:
+      return {
+        ...state,
+        cartTotal: payload,
+      };
     default:
       throw new Error(`Unhandled type ${type} in cartReducer`);
   }
@@ -64,6 +76,8 @@ const cartReducer = (state, action) => {
 const INITIAL_STATE = {
   isCartOpen: false,
   cartItem: [],
+  cartCount: 0,
+  cartTotal: 0,
 };
 
 export const CartContext = createContext({
@@ -80,15 +94,13 @@ export const CartProvider = ({ children }) => {
   // const [isCartOpen, setIsCartOpen] = useState(false);
   // const [cartItem, setCartItem] = useState([]);
   // console.log(cartItem);
-  const [cartCount, setCartCount] = useState(0);
-  const [cartTotal, setCartTotal] = useState(0);
+  // const [cartCount, setCartCount] = useState(0);
+  // const [cartTotal, setCartTotal] = useState(0);
 
-  const [{ isCartOpen, cartItem }, dispatch] = useReducer(
+  const [{ isCartOpen, cartItem, cartCount, cartTotal }, dispatch] = useReducer(
     cartReducer,
     INITIAL_STATE
   );
-
-  console.log(cartItem);
 
   const setIsCartOpen = (isCartOpen) => {
     dispatch({ type: CART_ACTION_TYPE.IS_CART_OPEN, payload: isCartOpen });
@@ -96,6 +108,14 @@ export const CartProvider = ({ children }) => {
 
   const setCartItem = (cartItem) => {
     dispatch({ type: CART_ACTION_TYPE.CART_ITEM, payload: cartItem });
+  };
+
+  const setCartCount = (newCartCount) => {
+    dispatch({ type: CART_ACTION_TYPE.CART_COUNT, payload: newCartCount });
+  };
+
+  const setCartTotal = (totalCartItem) => {
+    dispatch({ type: CART_ACTION_TYPE.CART_TOTAL, payload: totalCartItem });
   };
 
   useEffect(() => {
